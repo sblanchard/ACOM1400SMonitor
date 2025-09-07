@@ -3,7 +3,9 @@
 A Windows desktop monitor for the **ACOM 1400S amplifier**, built with **C# WinForms** and **WebView2**.  
 It connects directly to the amplifier’s built-in web interface, extracts live telemetry, and displays it in a **clean dark dashboard**.
 
-![Screenshot](docs/screenshot.png)
+
+<img width="986" height="676" alt="image" src="https://github.com/user-attachments/assets/c797a793-2571-4d45-b244-1d4601ce3f37" />
+
 
 ---
 
