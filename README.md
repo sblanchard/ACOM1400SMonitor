@@ -1,10 +1,9 @@
 # ACOM 1400S Live Monitor
 
-A Windows desktop monitor for the **ACOM 1400S amplifier**, built with **C# WinForms** and **WebView2**.  
+A Windows desktop monitor for the **ACOM 1400S amplifier**, built with **C# Avalonia** 
 It connects directly to the amplifier’s built-in web interface, extracts live telemetry, and displays it in a **clean dark dashboard**.
-
-
-<img width="986" height="676" alt="image" src="https://github.com/user-attachments/assets/c797a793-2571-4d45-b244-1d4601ce3f37" />
+ 
+<img width="1377" height="1027" alt="image" src="https://github.com/user-attachments/assets/2cb0628f-ecca-43bf-9dd9-5c9f9f6dfe14" />
 
 
 ---
@@ -31,8 +30,7 @@ It connects directly to the amplifier’s built-in web interface, extracts live 
 
 ### Prerequisites
 - Windows 10/11
-- .NET 8.0 or newer
-- [WebView2 Runtime](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
+- .NET 9.0 or newer 
 
 ### Run from source
 ```bash
