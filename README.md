@@ -31,6 +31,4 @@ It connects directly to the amplifier’s built-in web interface, extracts live 
 ### Prerequisites
 - Windows 10/11
 - .NET 9.0 or newer 
-- WebView2
-### Run from source
- 
+- WebView2 
