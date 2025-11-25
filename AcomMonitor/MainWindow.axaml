@@ -2,13 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="820"
+        mc:Ignorable="d" d:DesignWidth="520" d:DesignHeight="420"
         x:Class="AcomMonitor.MainWindow"
-        Title="ACOM 1400S Live Monitor"
-        Width="1100" Height="820">
+        Title="ACOM 1400S Monitor"
+        Width="520" Height="420"
+        MinWidth="480" MinHeight="380"
+        CanResize="True">
 
     <Window.Styles>
-        <!-- Card Style -->
+        <!-- Card Style - Compact -->
         <Style Selector="Border.card">
             <Setter Property="Background">
                 <Setter.Value>
@@ -18,33 +20,32 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Padding" Value="12"/>
-            <Setter Property="Margin" Value="6"/>
-            <Setter Property="BoxShadow" Value="0 6 24 0 #40000000"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="BoxShadow" Value="0 2 8 0 #30000000"/>
         </Style>
 
-        <!-- Section Header -->
+        <!-- Section Header - Compact -->
         <Style Selector="TextBlock.sectionHeader">
-            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontSize" Value="10"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="#0ef"/>
-            <Setter Property="Margin" Value="0,0,0,8"/>
-            <Setter Property="TextDecorations" Value="Underline"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
         </Style>
 
-        <!-- Label Style -->
+        <!-- Label Style - Compact -->
         <Style Selector="TextBlock.label">
-            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontSize" Value="9"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="#94a3b8"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,4,0,4"/>
+            <Setter Property="Margin" Value="0,1"/>
         </Style>
 
-        <!-- Value Style -->
+        <!-- Digital Display Value Style -->
         <Style Selector="TextBlock.value">
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground">
                 <Setter.Value>
@@ -54,14 +55,15 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontFamily" Value="Consolas, Monaco, 'Courier New', monospace"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,4,0,4"/>
+            <Setter Property="Margin" Value="0,1"/>
+            <Setter Property="LetterSpacing" Value="1"/>
         </Style>
 
-        <!-- Big Value Style (for important metrics) -->
+        <!-- Big Digital Display Value -->
         <Style Selector="TextBlock.bigValue">
-            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="ExtraBold"/>
             <Setter Property="Foreground">
                 <Setter.Value>
@@ -71,29 +73,43 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontFamily" Value="Consolas, Monaco, 'Courier New', monospace"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="LetterSpacing" Value="2"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#00ff87" BlurRadius="15" Opacity="0.6"/>
+                    <DropShadowEffect Color="#00ff87" BlurRadius="8" Opacity="0.5"/>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Button Base Style -->
+        <!-- Giant Digital Display (SWR) -->
+        <Style Selector="TextBlock.giantValue">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="FontFamily" Value="Consolas, Monaco, 'Courier New', monospace"/>
+            <Setter Property="LetterSpacing" Value="3"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#00ff87" BlurRadius="10" Opacity="0.6"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Button Base Style - Compact -->
         <Style Selector="Button.controlBtn">
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="10"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Height" Value="42"/>
-            <Setter Property="Padding" Value="24,0"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="CornerRadius" Value="4"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Transitions">
                 <Transitions>
-                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2"/>
+                    <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.15"/>
                 </Transitions>
             </Setter>
         </Style>
@@ -120,7 +136,7 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="RenderTransform" Value="scale(1.05)"/>
+            <Setter Property="RenderTransform" Value="scale(1.03)"/>
         </Style>
 
         <!-- Tune Button -->
@@ -145,7 +161,7 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="RenderTransform" Value="scale(1.05)"/>
+            <Setter Property="RenderTransform" Value="scale(1.03)"/>
         </Style>
 
         <!-- Bypass Button -->
@@ -170,7 +186,7 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="RenderTransform" Value="scale(1.05)"/>
+            <Setter Property="RenderTransform" Value="scale(1.03)"/>
         </Style>
 
         <!-- Power Button -->
@@ -195,7 +211,7 @@
                     </LinearGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="RenderTransform" Value="scale(1.05)"/>
+            <Setter Property="RenderTransform" Value="scale(1.03)"/>
         </Style>
     </Window.Styles>
 
@@ -209,138 +225,119 @@
             </LinearGradientBrush>
         </Panel.Background>
 
-        <ScrollViewer Padding="12">
-            <StackPanel Spacing="0">
-                <!-- Title Header -->
-                <Border Background="#00000040" CornerRadius="10" Padding="12" Margin="6,6,6,10">
+        <Grid RowDefinitions="Auto,*,Auto" Margin="6">
+            <!-- Compact Title Header -->
+            <Border Grid.Row="0" Background="#00000040" CornerRadius="6" Padding="8,4" Margin="3,3,3,3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                    <TextBlock Text="ACOM 1400S" FontSize="14" FontWeight="Black" Foreground="#00f5ff" VerticalAlignment="Center"/>
+                    <TextBlock Text="MONITOR" FontSize="9" Foreground="#94a3b8" VerticalAlignment="Center" LetterSpacing="1"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Main Content Grid -->
+            <Grid Grid.Row="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+
+                <!-- Power Metrics Card -->
+                <Border Classes="card" Grid.Column="0" Grid.Row="0">
                     <StackPanel>
-                        <TextBlock Text="ACOM 1400S" FontSize="28" FontWeight="Black" Foreground="#00f5ff" HorizontalAlignment="Center"/>
-                        <TextBlock Text="LIVE MONITOR SYSTEM" FontSize="11" Foreground="#94a3b8" HorizontalAlignment="Center" LetterSpacing="2"/>
+                        <TextBlock Classes="sectionHeader" Text="POWER"/>
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Margin="0,2,0,0">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Fwd"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Classes="bigValue" Name="ValFwd" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Ref"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Classes="value" Name="ValRef" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="In"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Classes="value" Name="ValInputP" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="Gain"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Classes="value" Name="ValGain" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Diss"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Classes="value" Name="ValDiss" Text="----" HorizontalAlignment="Right"/>
+                        </Grid>
                     </StackPanel>
                 </Border>
 
-                <!-- Main Content Grid -->
-                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
-
-                    <!-- Power Metrics Card -->
-                    <Border Classes="card" Grid.Column="0" Grid.Row="0">
-                        <StackPanel>
-                            <TextBlock Classes="sectionHeader" Text="⚡ POWER METRICS"/>
-
-                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
-                                <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Forward Power"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="bigValue" Name="ValFwd" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Reflected Power"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="value" Name="ValRef" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="Input Power"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Classes="value" Name="ValInputP" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="Gain"/>
-                                <TextBlock Grid.Row="3" Grid.Column="1" Classes="value" Name="ValGain" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Dissipation"/>
-                                <TextBlock Grid.Row="4" Grid.Column="1" Classes="value" Name="ValDiss" Text="-" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- SWR Card -->
-                    <Border Classes="card" Grid.Column="1" Grid.Row="0">
-                        <StackPanel>
-                            <TextBlock Classes="sectionHeader" Text="📊 SWR STATUS"/>
-                            <TextBlock Classes="bigValue" Name="ValSWR" Text="-" HorizontalAlignment="Center" FontSize="48" Margin="0,10"/>
-                            <TextBlock Text="Standing Wave Ratio" FontSize="10" Foreground="#64748b" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Electrical Metrics Card -->
-                    <Border Classes="card" Grid.Column="0" Grid.Row="1">
-                        <StackPanel>
-                            <TextBlock Classes="sectionHeader" Text="⚙️ ELECTRICAL"/>
-
-                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
-                                <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="DC Voltage"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="value" Name="ValDcV" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="DC Current"/>
-                                <TextBlock Grid.Row="1" Grid.Column="1" Classes="value" Name="ValDcA" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="Bias Left"/>
-                                <TextBlock Grid.Row="2" Grid.Column="1" Classes="value" Name="ValBiasL" Text="-" HorizontalAlignment="Right"/>
-
-                                <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="Bias Right"/>
-                                <TextBlock Grid.Row="3" Grid.Column="1" Classes="value" Name="ValBiasR" Text="-" HorizontalAlignment="Right"/>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Temperature Card -->
-                    <Border Classes="card" Grid.Column="1" Grid.Row="1">
-                        <StackPanel>
-                            <TextBlock Classes="sectionHeader" Text="🌡️ TEMPERATURE"/>
-
-                            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto">
-                                <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Temperature °C"/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Classes="bigValue" Name="ValTempC" Text="-" HorizontalAlignment="Right" FontSize="32"/>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Status & Config Card -->
-                    <Border Classes="card" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
-                        <StackPanel>
-                            <TextBlock Classes="sectionHeader" Text="📡 CONFIGURATION &amp; STATUS"/>
-
-                            <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="Auto,Auto">
-                                <!-- Band -->
-                                <StackPanel Grid.Column="0" Margin="6">
-                                    <TextBlock Classes="label" Text="Band" HorizontalAlignment="Center"/>
-                                    <TextBlock Classes="value" Name="ValBand" Text="-" HorizontalAlignment="Center" FontSize="14"/>
-                                </StackPanel>
-
-                                <!-- Mode -->
-                                <StackPanel Grid.Column="1" Margin="6">
-                                    <TextBlock Classes="label" Text="Mode" HorizontalAlignment="Center"/>
-                                    <TextBlock Classes="value" Name="ValMode" Text="-" HorizontalAlignment="Center" FontSize="14"/>
-                                </StackPanel>
-
-                                <!-- ATU -->
-                                <StackPanel Grid.Column="2" Margin="6">
-                                    <TextBlock Classes="label" Text="ATU" HorizontalAlignment="Center"/>
-                                    <TextBlock Classes="value" Name="ValATU" Text="-" HorizontalAlignment="Center" FontSize="14"/>
-                                </StackPanel>
-
-                                <!-- CAT -->
-                                <StackPanel Grid.Column="3" Margin="6">
-                                    <TextBlock Classes="label" Text="CAT" HorizontalAlignment="Center"/>
-                                    <TextBlock Classes="value" Name="ValCAT" Text="-" HorizontalAlignment="Center" FontSize="14"/>
-                                </StackPanel>
-
-                                <!-- RC -->
-                                <StackPanel Grid.Column="4" Margin="6">
-                                    <TextBlock Classes="label" Text="Remote" HorizontalAlignment="Center"/>
-                                    <TextBlock Classes="value" Name="ValRC" Text="-" HorizontalAlignment="Center" FontSize="14"/>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-
-                <!-- Control Buttons -->
-                <Border Background="#00000040" CornerRadius="10" Padding="12" Margin="6,10,6,6">
-                    <StackPanel>
-                        <TextBlock Text="AMPLIFIER CONTROLS" FontSize="11" Foreground="#94a3b8" HorizontalAlignment="Center" LetterSpacing="2" Margin="0,0,0,8"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Name="BtnStandby" Classes="controlBtn standby" Content="STANDBY" Click="OnStandbyClick"/>
-                            <Button Name="BtnTune" Classes="controlBtn tune" Content="TUNE" Click="OnTuneClick"/>
-                            <Button Name="BtnBypass" Classes="controlBtn bypass" Content="BYPASS" Click="OnBypassClick"/>
-                            <Button Name="BtnPowerOff" Classes="controlBtn power" Content="POWER OFF" Click="OnPowerOffClick"/>
-                        </StackPanel>
+                <!-- SWR Card -->
+                <Border Classes="card" Grid.Column="1" Grid.Row="0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Classes="sectionHeader" Text="SWR" HorizontalAlignment="Center"/>
+                        <TextBlock Classes="giantValue" Name="ValSWR" Text="-.--" HorizontalAlignment="Center" Margin="0,8"/>
+                        <TextBlock Text="Standing Wave Ratio" FontSize="8" Foreground="#64748b" HorizontalAlignment="Center"/>
                     </StackPanel>
                 </Border>
-            </StackPanel>
-        </ScrollViewer>
+
+                <!-- Electrical Metrics Card -->
+                <Border Classes="card" Grid.Column="0" Grid.Row="1">
+                    <StackPanel>
+                        <TextBlock Classes="sectionHeader" Text="ELECTRICAL"/>
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,2,0,0">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Vdc"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Classes="value" Name="ValDcV" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Adc"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Classes="value" Name="ValDcA" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="Bias L"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Classes="value" Name="ValBiasL" Text="----" HorizontalAlignment="Right"/>
+
+                            <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="Bias R"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Classes="value" Name="ValBiasR" Text="----" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Temperature Card -->
+                <Border Classes="card" Grid.Column="1" Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Classes="sectionHeader" Text="TEMP" HorizontalAlignment="Center"/>
+                        <TextBlock Classes="bigValue" Name="ValTempC" Text="--" HorizontalAlignment="Center" FontSize="22" Margin="0,6"/>
+                        <TextBlock Text="Degrees C" FontSize="8" Foreground="#64748b" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Status & Config Card - Compact inline -->
+                <Border Classes="card" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2">
+                    <Grid ColumnDefinitions="*,*,*,*,*" RowDefinitions="Auto">
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Classes="label" Text="Band" HorizontalAlignment="Center" FontSize="8"/>
+                            <TextBlock Classes="value" Name="ValBand" Text="--" HorizontalAlignment="Center" FontSize="11"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Classes="label" Text="Mode" HorizontalAlignment="Center" FontSize="8"/>
+                            <TextBlock Classes="value" Name="ValMode" Text="--" HorizontalAlignment="Center" FontSize="11"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Classes="label" Text="ATU" HorizontalAlignment="Center" FontSize="8"/>
+                            <TextBlock Classes="value" Name="ValATU" Text="--" HorizontalAlignment="Center" FontSize="11"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" HorizontalAlignment="Center">
+                            <TextBlock Classes="label" Text="CAT" HorizontalAlignment="Center" FontSize="8"/>
+                            <TextBlock Classes="value" Name="ValCAT" Text="--" HorizontalAlignment="Center" FontSize="11"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4" HorizontalAlignment="Center">
+                            <TextBlock Classes="label" Text="RC" HorizontalAlignment="Center" FontSize="8"/>
+                            <TextBlock Classes="value" Name="ValRC" Text="--" HorizontalAlignment="Center" FontSize="11"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Compact Control Buttons -->
+            <Border Grid.Row="2" Background="#00000040" CornerRadius="6" Padding="6,4" Margin="3,3,3,3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="2">
+                    <Button Name="BtnStandby" Classes="controlBtn standby" Content="STANDBY" Click="OnStandbyClick"/>
+                    <Button Name="BtnTune" Classes="controlBtn tune" Content="TUNE" Click="OnTuneClick"/>
+                    <Button Name="BtnBypass" Classes="controlBtn bypass" Content="BYPASS" Click="OnBypassClick"/>
+                    <Button Name="BtnPowerOff" Classes="controlBtn power" Content="POWER" Click="OnPowerOffClick"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Panel>
 </Window>
