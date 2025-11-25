@@ -35,7 +35,7 @@ public partial class MainWindow : Window
     private async void MainWindow_Opened(object? sender, EventArgs e)
     {
         await InitAsync();
-        _timer.Tick += async (_, __) => await PollAsync();
+        _timer.Tick += async (_, _) => await PollAsync();
         _timer.Start();
     }
 
@@ -45,7 +45,7 @@ public partial class MainWindow : Window
         {
             // Get the window handle from Avalonia
             var hwnd = IntPtr.Zero;
-            if (TryGetPlatformHandle()?.Handle is IntPtr handle)
+            if (TryGetPlatformHandle()?.Handle is { } handle)
             {
                 hwnd = handle;
             }
@@ -137,7 +137,10 @@ public partial class MainWindow : Window
             // Update button states
             await UpdateButtonStates();
         }
-        catch { }
+        catch
+        {
+            // ignored
+        }
     }
 
     private async Task UpdateButtonStates()
@@ -352,7 +355,7 @@ public partial class MainWindow : Window
         };
 
         var okButton = (msgBox.Content as StackPanel)!.Children[1] as Button;
-        okButton!.Click += (_, __) => msgBox.Close();
+        okButton!.Click += (_, _) => msgBox.Close();
 
         await msgBox.ShowDialog(this);
     }
@@ -389,8 +392,8 @@ public partial class MainWindow : Window
         var yesButton = buttonPanel!.Children[0] as Button;
         var noButton = buttonPanel.Children[1] as Button;
 
-        yesButton!.Click += (_, __) => { result = true; msgBox.Close(); };
-        noButton!.Click += (_, __) => { result = false; msgBox.Close(); };
+        yesButton!.Click += (_, _) => { result = true; msgBox.Close(); };
+        noButton!.Click += (_, _) => { result = false; msgBox.Close(); };
 
         await msgBox.ShowDialog(this);
         return result;
