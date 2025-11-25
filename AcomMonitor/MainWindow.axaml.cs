@@ -10,21 +10,21 @@ namespace AcomMonitor;
 
 public partial class MainWindow : Window
 {
-    private readonly Config config = Config.Load();
+    private readonly Config _config = Config.Load();
 
-    private CoreWebView2Environment? webEnv;
-    private CoreWebView2Controller? webController;
-    private CoreWebView2? webView;
-    private readonly DispatcherTimer timer = new() { Interval = TimeSpan.FromMilliseconds(250) };
-    private bool pageReady;
+    private CoreWebView2Environment? _webEnv;
+    private CoreWebView2Controller? _webController;
+    private CoreWebView2? _webView;
+    private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromMilliseconds(250) };
+    private bool _pageReady;
 
     // Peak trackers
-    private readonly PeakTracker peakFwd = new();
-    private readonly PeakTracker peakRef = new();
-    private readonly PeakTracker peakInput = new();
-    private readonly PeakTracker peakGain = new();
-    private readonly PeakTracker peakSWR = new();
-    private readonly PeakTracker peakTemp = new();
+    private readonly PeakTracker _peakFwd = new();
+    private readonly PeakTracker _peakRef = new();
+    private readonly PeakTracker _peakInput = new();
+    private readonly PeakTracker _peakGain = new();
+    private readonly PeakTracker _peakSwr = new();
+    private readonly PeakTracker _peakTemp = new();
 
     public MainWindow()
     {
@@ -35,8 +35,8 @@ public partial class MainWindow : Window
     private async void MainWindow_Opened(object? sender, EventArgs e)
     {
         await InitAsync();
-        timer.Tick += async (_, __) => await PollAsync();
-        timer.Start();
+        _timer.Tick += async (_, __) => await PollAsync();
+        _timer.Start();
     }
 
     private async Task InitAsync()
@@ -57,12 +57,12 @@ public partial class MainWindow : Window
             }
 
             var userDataFolder = Path.Combine(Path.GetTempPath(), "AcomMonitorWebView2");
-            webEnv = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
-            webController = await webEnv.CreateCoreWebView2ControllerAsync(hwnd);
-            webView = webController.CoreWebView2;
+            _webEnv = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
+            _webController = await _webEnv.CreateCoreWebView2ControllerAsync(hwnd);
+            _webView = _webController.CoreWebView2;
 
-            webView.NavigationCompleted += (_, e) => pageReady = e.IsSuccess;
-            webView.Navigate(config.AmplifierUrl);
+            _webView.NavigationCompleted += (_, e) => _pageReady = e.IsSuccess;
+            _webView.Navigate(_config.AmplifierUrl);
         }
         catch (Exception ex)
         {
@@ -92,11 +92,11 @@ public partial class MainWindow : Window
 
     private async Task PollAsync()
     {
-        if (!pageReady || webView is null) return;
+        if (!_pageReady || _webView is null) return;
 
         try
         {
-            var js = await webView.ExecuteScriptAsync(ScrapeScript);
+            var js = await _webView.ExecuteScriptAsync(ScrapeScript);
             var cleaned = UnwrapWebView2Json(js);
             if (string.IsNullOrWhiteSpace(cleaned)) return;
 
@@ -109,12 +109,12 @@ public partial class MainWindow : Window
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 // Peak-tracked values
-                ValFwd.Text = peakFwd.Update(snap.Dashboard.FwdPowerW)?.ToString("0") + " W";
-                ValRef.Text = peakRef.Update(snap.Dashboard.RefPowerW)?.ToString("0") + " W";
-                ValInputP.Text = peakInput.Update(snap.Dashboard.InputPowerW)?.ToString("0") + " W";
-                ValGain.Text = peakGain.Update(snap.Dashboard.GainDb)?.ToString("0.0") + " dB";
-                ValSWR.Text = peakSWR.Update(snap.Dashboard.Swr)?.ToString("0.00");
-                ValTempC.Text = peakTemp.Update(snap.Dashboard.TempC)?.ToString("0") + " °C";
+                ValFwd.Text = _peakFwd.Update(snap.Dashboard.FwdPowerW)?.ToString("0") + " W";
+                ValRef.Text = _peakRef.Update(snap.Dashboard.RefPowerW)?.ToString("0") + " W";
+                ValInputP.Text = _peakInput.Update(snap.Dashboard.InputPowerW)?.ToString("0") + " W";
+                ValGain.Text = _peakGain.Update(snap.Dashboard.GainDb)?.ToString("0.0") + " dB";
+                ValSWR.Text = _peakSwr.Update(snap.Dashboard.Swr)?.ToString("0.00");
+                ValTempC.Text = _peakTemp.Update(snap.Dashboard.TempC)?.ToString("0") + " °C";
 
                 // Other values
                 ValDcV.Text = snap.Dashboard.DcVoltageV?.ToString("0.0") + " V";
@@ -124,7 +124,7 @@ public partial class MainWindow : Window
                 ValDiss.Text = snap.Dashboard.DissipationW?.ToString("0") + " W";
                 ValBand.Text = $"{snap.Band.BandLowMhz} – {snap.Band.BandHighMhz}";
                 ValMode.Text = snap.Switches.Mode;
-                ValATU.Text = snap.ATU.Status;
+                ValATU.Text = snap.Atu.Status;
                 ValCAT.Text = snap.Indicators.CatIsActive ? "CAT ON" : "CAT OFF";
                 ValRC.Text = snap.Indicators.LastCmdIsRemote ? "RC" : "";
 
@@ -142,7 +142,7 @@ public partial class MainWindow : Window
 
     private async Task UpdateButtonStates()
     {
-        if (!pageReady || webView is null) return;
+        if (!_pageReady || _webView is null) return;
         try
         {
             var script = @"
@@ -163,7 +163,7 @@ public partial class MainWindow : Window
                     });
                 })();
             ";
-            var result = await webView.ExecuteScriptAsync(script);
+            var result = await _webView.ExecuteScriptAsync(script);
             var cleaned = UnwrapWebView2Json(result);
             var state = JsonSerializer.Deserialize<Dictionary<string, string>>(cleaned);
 
@@ -193,7 +193,7 @@ public partial class MainWindow : Window
 
     private async void OnStandbyClick(object? sender, RoutedEventArgs e)
     {
-        if (!pageReady || webView is null) return;
+        if (!_pageReady || _webView is null) return;
         try
         {
             var script = @"
@@ -209,7 +209,7 @@ public partial class MainWindow : Window
                     return 'not found';
                 })();
             ";
-            var result = await webView.ExecuteScriptAsync(script);
+            var result = await _webView.ExecuteScriptAsync(script);
             result = UnwrapWebView2Json(result);
             if (result.Contains("not found"))
             {
@@ -224,7 +224,7 @@ public partial class MainWindow : Window
 
     private async void OnTuneClick(object? sender, RoutedEventArgs e)
     {
-        if (!pageReady || webView is null) return;
+        if (!_pageReady || _webView is null) return;
         try
         {
             var script = @"
@@ -239,7 +239,7 @@ public partial class MainWindow : Window
                     return 'not found';
                 })();
             ";
-            var result = await webView.ExecuteScriptAsync(script);
+            var result = await _webView.ExecuteScriptAsync(script);
             result = UnwrapWebView2Json(result);
             if (result.Contains("not found"))
             {
@@ -254,7 +254,7 @@ public partial class MainWindow : Window
 
     private async void OnBypassClick(object? sender, RoutedEventArgs e)
     {
-        if (!pageReady || webView is null) return;
+        if (!_pageReady || _webView is null) return;
         try
         {
             var script = @"
@@ -269,7 +269,7 @@ public partial class MainWindow : Window
                     return 'not found';
                 })();
             ";
-            var result = await webView.ExecuteScriptAsync(script);
+            var result = await _webView.ExecuteScriptAsync(script);
             result = UnwrapWebView2Json(result);
             if (result.Contains("not found"))
             {
@@ -284,7 +284,7 @@ public partial class MainWindow : Window
 
     private async void OnPowerOffClick(object? sender, RoutedEventArgs e)
     {
-        if (!pageReady || webView is null) return;
+        if (!_pageReady || _webView is null) return;
         try
         {
             // Check current button text to customize confirmation
@@ -314,7 +314,7 @@ public partial class MainWindow : Window
                     return 'not found';
                 })();
             ";
-            var jsResult = await webView.ExecuteScriptAsync(script);
+            var jsResult = await _webView.ExecuteScriptAsync(script);
             jsResult = UnwrapWebView2Json(jsResult);
             if (jsResult.Contains("not found"))
             {
@@ -431,7 +431,7 @@ public sealed class AmpSnapshot
     public Indicators Indicators { get; init; } = new();
     public Switches Switches { get; init; } = new();
     public Dashboard Dashboard { get; init; } = new();
-    public AtuInfo ATU { get; init; } = new();
+    public AtuInfo Atu { get; init; } = new();
 }
 
 public sealed class BandInfo { public string BandLowMhz = ""; public string BandHighMhz = ""; }
@@ -442,7 +442,7 @@ public sealed class Dashboard
     public double? FwdPowerW, RefPowerW, InputPowerW, DissipationW, Swr, GainDb, BiasLeftV, BiasRightV, DcVoltageV, DcCurrentA, TempC;
     public string TempRel = "";
 }
-public sealed class AtuInfo { public string Status = ""; public double? AtuaSWR; public double? AtuaTempC; }
+public sealed class AtuInfo { public string Status = ""; public double? AtuaSwr; public double? AtuaTempC; }
 
 public static class AmpSnapshotMapper
 {
@@ -484,10 +484,10 @@ public static class AmpSnapshotMapper
             TempC = Num(d.Get("$amp/controls/dashboard/values/temperature_c")),
             TempRel = d.Get("$amp/controls/dashboard/values/temperature_rel")
         },
-        ATU = new AtuInfo
+        Atu = new AtuInfo
         {
             Status = d.Get("$amp/controls/atu/status"),
-            AtuaSWR = Num(d.Get("$amp/controls/atu/measure/values/swr")),
+            AtuaSwr = Num(d.Get("$amp/controls/atu/measure/values/swr")),
             AtuaTempC = Num(d.Get("$amp/controls/atu/measure/values/temperature"))
         }
     };
